@@ -1,0 +1,27 @@
+- name: Open network ports 
+  hosts: new_nodes
+  vars:
+    ports:
+      - 5354
+##      - 53
+##      - 8053
+##      - 9200
+##      - 9300
+##      - 2049
+##      - 24007
+##      - 24008
+##      - 24010
+##      - 3260
+##      - 49152
+##      - 49664
+##      - 10250
+     # - 4789/udp
+     # - 8053/udp
+     # - 53/udp
+  become: yes
+  become_user: root
+  tasks:
+    - name: Create the file
+      #shell: sh -c 'nc -4 -l -p "{{ item }}" &' 
+      shell: sh -c 'nc -4 -k -l "{{ item }}" &' 
+      with_items: "{{ ports }}"
