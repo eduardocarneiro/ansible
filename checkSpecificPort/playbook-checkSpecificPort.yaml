@@ -72,15 +72,16 @@
   become: yes
   become_user: root
   tasks:
-    - name: Create the file
+    - name: Create the /tmp/open-ports.sh file
       shell: touch /tmp/open-ports.sh
+    - name: Add the shell script Header
+      shell: echo "#!/bin/bash" >> /tmp/open-ports.sh
+    - name: Add the Netcat command on /tmp/open-ports.sh file
       shell: echo "sh -c 'nc -l -p "{{ item }}" & '" >> /tmp/open-ports.sh
       with_items: "{{ ports }}"
     - name: Changing perm of "/tmp/open-ports.sh", adding "+x"
       file: dest=/tmp/open-ports.sh mode=u+x
     - name: Opening all the ports
-      shell: pwd
-#      shell: open-ports.sh
+      command: /tmp/open-ports.sh
       args:
-      chdir: /tmp/
-        #executable: /bin/bash
+        chdir: /tmp/

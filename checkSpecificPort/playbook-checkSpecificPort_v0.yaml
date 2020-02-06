@@ -73,6 +73,7 @@
   become_user: root
   tasks:
     - name: Perform NC command to open a fake port
-      shell: echo hello | nc -l -p "{{ item }}"
+      #shell: echo hello | nc -l -p "{{ item }}"
       #shell: sh -c 'nc -l -p "{{ item }}"'
+      shell: nohup nc -4lk "{{ item  }}" &
       with_items: "{{ ports }}"

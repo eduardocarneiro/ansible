@@ -23,5 +23,6 @@
   tasks:
     - name: Create the file
       #shell: sh -c 'nc -4 -l -p "{{ item }}" &' 
-      shell: sh -c 'nc -4 -k -l "{{ item }}" &' 
+      #shell: sh -c 'nc -4 -k -l "{{ item }}" &' 
+      shell: nc -4 -lk "{{ item }}" & 
       with_items: "{{ ports }}"
