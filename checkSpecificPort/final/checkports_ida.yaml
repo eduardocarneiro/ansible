@@ -1,0 +1,19 @@
+---                                                                                                                                                                                             
+- name: Check all ports
+  hosts: masters
+  become: yes
+  become_user: root
+  vars:
+    ports:
+      - 22
+ #     - 9200
+ #     - 9300
+    target:
+      - host2.ansible-training.lab
+  tasks:
+    - name: Open required TCP port {{ ports }}
+      command: /usr/bin/nc -vz "{{ target }}" "{{ item  }}"
+      register: result
+      with_items: "{{ ports }}"
+    - debug:
+        var: result 
