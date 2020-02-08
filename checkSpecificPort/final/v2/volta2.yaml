@@ -1,0 +1,21 @@
+---
+- name: Check all udp ports
+  hosts: new_nodes
+  become: yes
+  become_user: root
+  vars:
+    ports:
+      - 22
+      - 53
+    target:
+      - host1.ansible-training.lab
+      - host3.ansible-training.lab
+  tasks:
+    - name: Open required UDP port {{ ports }}
+      command: /usr/bin/nc -uvz {{ ports }} "{{ target }}"
+      register: result
+      with_items: 
+        - ports
+        - target
+    - debug:
+        var: result 

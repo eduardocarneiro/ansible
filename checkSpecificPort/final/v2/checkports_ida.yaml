@@ -594,7 +594,7 @@
   become_user: root
   tasks:
     - name: Perform NC command to open a fake port
-      shell: nohup nc -4lku "{{ item  }}" &
+      shell: nohup nc -u -4l "{{ item  }}" &
       with_items: "{{ ports }}"
 
 - name: Check all tcp ports
@@ -1129,7 +1129,7 @@
       - 49664
   tasks:
     - name: Open required TCP port {{ ports }}
-      command: /usr/bin/nc -vz host2.ansible-training.lab "{{ item  }}"
+      command: /usr/bin/nc -vz host3.ansible-training.lab "{{ item  }}"
       register: result
       with_items: "{{ ports }}"
     - debug:
@@ -1146,7 +1146,7 @@
       - 53
   tasks:
     - name: Open required UDP port {{ ports }}
-      command: /usr/bin/nc -vz host2.ansible-training.lab "{{ item  }}"
+      command: /usr/bin/nc -uvz host3.ansible-training.lab "{{ item  }}"
       register: result
       with_items: "{{ ports }}"
     - debug:
