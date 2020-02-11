@@ -4,18 +4,18 @@
   become: yes
   become_user: root
   vars:
+    target:
+      - host1.ansible-training.lab
+      - host2.ansible-training.lab
     ports:
       - 22
       - 53
-    target:
-      - host1.ansible-training.lab
-      - host3.ansible-training.lab
   tasks:
-    - name: Open required UDP port {{ ports }}
-      command: /usr/bin/nc -uvz {{ ports }} "{{ target }}"
+    - name: Open required UDP port 
+      command: /usr/bin/nc -vz "{{ item.0 }}" "{{ item.1 }}"
       register: result
-      with_items: 
-        - ports
-        - target
+      with_nested: 
+        - "{{ target }}"
+        - "{{ ports }}"
     - debug:
         var: result 
